@@ -1,171 +1,56 @@
-const obj = {
-    name: 'David',
-    getName() {
-        return this.name;
-    }
-};
+// install -> import -> use
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import IndecisionApp from './components/IndecistionApp';
+import 'normalize.css/normalize.css';
+import './styles/style.scss';
+
+// const Layout = (props) => {
+//     return (
+//         <div>
+//             <p>header</p>
+//             {props.children}
+//             <p>footer</p>
+//         </div>
+//     );
+// }
 
 
-const getName = obj.getName.bind(obj);
 
-console.log(getName());
+// stateless functional component
 
-class IndecisionApp extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-        this.handlePick = this.handlePick.bind(this);
-        this.handleAddOption = this.handleAddOption.bind(this);
-        this.state = {
-            options: []
-        }
-    }
-    handlePick() {
-        const randomNum = Math.floor(Math.random() * this.state.options.length)
-        const option = this.state.options[randomNum];
-        alert(option)
-    }
-    handleDeleteOptions() {
-    this.setState(() => {
-        return {
-            options: []
-        };
-      });
-    }
-    handleAddOption(option) {
-        if(!option) {
-            return 'Enter valid value to add item';
-        } else if (this.state.options.indexOf(option) > -1) {
-            return 'This option already exists';
-        } 
-
-        this.setState(() => {
-            return {
-                options: this.state.options.concat([option])
-            }
-        });
-    }
-    // handlePick - pass down to Action and setup onClick- bind here
-    //  randomly pick an option and alert it.
-    render() {
-        const title = 'Indecision';
-        const subtitle = 'Put your life in the hands of a computer';
-
-        return (
-            <div>
-                <Header title={title} subtitle={subtitle} />
-                <Action hasOptions={this.state.options.length > 0} 
-                handlePick={this.handlePick}
-                />
-                <Options options={this.state.options} 
-                handleDeleteOptions={this.handleDeleteOptions}
-                />
-                <AddOption handleAddOption={this.handleAddOption}
-                />
-            </div>
-        )
-    }
-}
-//handleDeleteOptions
-
-class Header extends React.Component {
-    render() {
-        return (
-            <div>
-                <h1>{this.props.title}</h1>
-                <h2>{this.props.subtitle} </h2>
-            </div>
-        );
-    }
-}
-
-class Action extends React.Component {
+// Moving the component code
+// Setup import/export
+// Move the imports to that new files (and setup an import here)
 
 
-    render() {
-        return (
-            <div>
-                <button onClick={this.props.handlePick}
-                disabled={!this.props.hasOptions}
-                > 
-                What should I do?
-                </button>
-            </div>
-        );
-    };
-}
-
-// Setup options prop for Options component
-// Render the length of the array
-// Render new p tag for each option (set text, set key)
-
-// Add Reomve All button
-// Setup handleRomoveAll -> alert some message
-// Setup onClick to fire the method
-
-class Options extends React.Component {
-
-    render() {
-        return ( 
-            <div>
-            {
-            this.props.options.map((option) =>  <Option key={option} optionText={option}/>)
-            }
-            <button onClick={this.props.handleDeleteOptions}>Remove All</button>
-            </div>
-        );
-    };
-}
-
-class Option extends React.Component {
-    render() {
-        return (
-            <div>
-                Option: {this.props.optionText}
-            </div>
-        );
-    };
-}
-
-
-// Option -> Option component here
-
-// 1. Setup the form with text input and submit button
-// 2. Wire up onSubmit
-// 3. handleAddOption -> fetch the value typed -> if value, then alert
-
-class AddOption extends React.Component {
-    constructor(props) {
-        super(props); {
-            this.handleAddOption = this.handleAddOption.bind(this);
-            this.state = {
-                error: undefined
-            };
-        };
-    }
-    handleAddOption(e) {
-        e.preventDefault();
-        const option = e.target.elements.option.value.trim();
-        const error = this.props.handleAddOption(option);
-        
-        this.setState(() => {
-            return {error};
-        });
-      }
-        
-    
-    render() {
-        return (
-            <div>
-                {this.state.error && <p>{this.state.error}</p>}
-                <form onSubmit={this.handleAddOption}>
-                    <input type='text' name="option"/>
-                    <button>Add option</button>
-                </form>
-            </div>
-        );
-    };
-}
 
 
 ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
+
+// class OldSyntax {
+//     constructor() {
+//         this.name = 'David';
+//         this.getGreeting = this.getGreeting.bind(this);
+//     }
+//     getGreeting() {
+//         return `Hi, My name is ${this.name}.`;
+//     }
+// }
+
+// const oldSyntax = new OldSyntax();
+// const getGreeting = oldSyntax.getGreeting;
+// console.log(getGreeting());
+
+// // -------
+
+// class NewSyntax {
+//     name = 'Jenny'; 
+//     getGreeting = () => {
+//         return `Hi, My name is ${this.name}.`;
+//     }
+// }
+// const newSyntax = new NewSyntax();
+// const newGetGreeting = newSyntax.getGreeting;
+// console.log(newGetGreeting());

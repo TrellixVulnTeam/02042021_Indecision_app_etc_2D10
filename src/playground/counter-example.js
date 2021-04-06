@@ -1,4 +1,6 @@
 
+// count - setup default prop value to 0
+
 class Counter extends React.Component {
 constructor(props) {
     super(props);
@@ -9,6 +11,27 @@ constructor(props) {
         count: 0
     };
 }
+    componentDidMount() {
+      const stringCount = localStorage.getItem('count');
+      const count = parseInt(stringCount, 10);
+
+      if(count) {
+          this.setState(() => ({ count }));
+      }
+}
+    componentDidUpdate() {
+        if (this.state.count !== 0) {
+            localStorage.setItem('count', this.state.count);
+        }
+    }
+
+    componentWillUnmount() {
+        console.log('It will unmount')
+    }
+    
+
+
+
     handleAddOne () {
         this.setState(() => {
             return {
@@ -36,6 +59,7 @@ constructor(props) {
         return (
             <div>
                 <h1>Count: {this.state.count}</h1>
+                {this.state.count === 0 && <p>Please use the button to count something!</p>}
                 <button onClick={this.handleAddOne}>+1</button>
                 <button onClick={this.handleMinusOne}>-1</button>
                 <button onClick={this.handleReset}>Reset</button>
@@ -43,6 +67,13 @@ constructor(props) {
         )
     }
 }
+
+
+
+// Counter.defaultProps = {
+//     count: 0
+// }
+
 
 // 1. Create 3 methods: handleAddOne, handleMinusOne, handleReset
 // 2. Use console.log to priunt method name
